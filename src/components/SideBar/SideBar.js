@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function Menu() {
+function SideBar() {
 
     const [listMenu, setListMenu] = useState([
         {
@@ -33,4 +33,4 @@ function Menu() {
     )
 }
 
-export default Menu;
+export default SideBar;

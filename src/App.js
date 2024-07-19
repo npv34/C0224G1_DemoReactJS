@@ -2,7 +2,7 @@ import './App.css';
 import Header from "./components/Header/Header";
 import {useState} from "react";
 import UserList from "./components/Users/User-List/UserList";
-import Menu from "./components/Menu/Menu";
+import SideBar from "./components/SideBar/SideBar";
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
               <Header/>
               <div className="row">
                   <div className="col-12 col-md-3">
-                      <Menu/>
+                      <SideBar/>
                   </div>
                   <div className="col-12 col-md-9">
                       {pageShow === "User manager" && <UserList/>}

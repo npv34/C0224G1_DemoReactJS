@@ -1,6 +1,7 @@
 import {useState} from "react";
 
-function SideBar() {
+
+function SideBar(props) {
 
     const [listMenu, setListMenu] = useState([
         {
@@ -19,14 +20,23 @@ function SideBar() {
             title: 'My Account',
             active: false,
         }
-    ])
+    ]);
+
+    const handleClickMenu = (index) => {
+        listMenu.forEach(item => item.active = false);
+        listMenu[index].active = true;
+        // component re-render
+        props.showPageMenu(listMenu[index].title)
+        setListMenu([...listMenu]);
+
+    }
 
 
     return (
         <>
             <div className="list-group mt-2">
-                {listMenu.map(menu => (
-                    <button type="button" className={menu.active ? "list-group-item-action list-group-item active" : "list-group-item-action list-group-item"}>{menu.title}</button>
+                {listMenu.map((menu, index) => (
+                    <button type="button" onClick={() => handleClickMenu(index)} className={menu.active ? "list-group-item-action list-group-item active" : "list-group-item-action list-group-item"}>{menu.title}</button>
                 ))}
             </div>
         </>

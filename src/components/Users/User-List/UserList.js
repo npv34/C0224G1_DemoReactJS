@@ -1,29 +1,40 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import InputSearch from "../../Common/InputSearch/InputSearch";
-
-const data = [
-    {id: 1, name: 'John Doe', email: 'john@example.com'},
-    {id: 2, name: 'Jane Doe 2', email: 'jane@example.com'},
-    {id: 3, name: 'Teo', email: 'teo@example.com'},
-    {id: 4, name: 'Nam', email: 'nam@example.com'}
-]
+import axios from "axios";
+import Loading from "../../Common/Loading/Loading";
+import {toast} from "react-toastify";
 
 function UserList() {
 
-    const [users, setUsers] = useState(data)
-    const [userFilter, setUserFilter] = useState(users)
+    const [users, setUsers] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [loadData, setLoadData] = useState(false)
+
+    useEffect(() => {
+        axios.get("https://6679193318a459f6394dfa67.mockapi.io/users")
+            .then(res => {
+                setUsers(res.data)
+                setIsLoading(false)
+            })
+    }, [loadData])
+
 
     const handleDeleteUser = (id) => {
        // thuat toan xoa 1 phan tu trong mang theo dieu kien
         if (window.confirm("Are you sure you want to delete")) {
-            const newUsers = users.filter(user => user.id !== id)
-            setUserFilter(newUsers)
+            setIsLoading(true)
+            axios.delete("https://6679193318a459f6394dfa67.mockapi.io/users/" + id).then(res => {
+                setLoadData(!loadData)
+                setIsLoading(false);
+                toast.success("Delete success!", {
+                    autoClose: 1000,
+                })
+            })
         }
     }
 
     const handleSearch = (keyword) => {
-        const newUsers = keyword ? users.filter(user => user.name.toLowerCase().includes(keyword)) : data
-        setUserFilter(newUsers)
+
     }
 
     return (
@@ -48,7 +59,13 @@ function UserList() {
                         </tr>
                         </thead>
                         <tbody>
-                        { userFilter.map((user, index) => (
+                        { isLoading ? (
+                            <tr>
+                                <td colSpan="3">
+                                    <Loading/>
+                                </td>
+                            </tr>
+                        ) : users.map((user, index) => (
                             <tr key={user.id}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{user.name}</td>
@@ -57,6 +74,7 @@ function UserList() {
                                     <button onClick={() => handleDeleteUser(user.id)} className="btn btn-danger">Delete</button></td>
                             </tr>
                         ))}
+
                         </tbody>
                     </table>
                 </div>

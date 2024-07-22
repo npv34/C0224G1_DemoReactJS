@@ -2,7 +2,7 @@ import Menu from "./Menu";
 import InputSearch from "../Common/InputSearch/InputSearch";
 import SwitchButton from "../Common/SwitchButton/SwitchButton";
 
-function Header() {
+function Header(props) {
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,7 +15,7 @@ function Header() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <Menu/>
-                        <SwitchButton/>
+
                     </div>
                 </div>
             </nav>
